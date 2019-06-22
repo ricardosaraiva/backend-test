@@ -36,3 +36,4 @@ $container['notAllowedHandler'] = function ($container) {
 
 $app->get('/event[/{page}]', EventController::class . ':listAction');
 $app->post('/event', EventController::class . ':addAction');
+$app->put('/event/{id}', EventController::class . ':updateAction');

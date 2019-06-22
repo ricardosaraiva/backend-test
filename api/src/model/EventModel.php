@@ -113,6 +113,23 @@ class EventModel extends Model {
         return $this;
     }
 
+    public function isValid() {
+        if (!parent::isValid()) {
+            return false;
+        }    
+
+        $dateTime = new \DateTime();
+        $dateEvent = new \DateTime(sprintf('%s %s', $this->date, $this->time));
+        if($dateTime->format('Y-m-d H:i:s') >= $dateEvent->format('Y-m-d H:i:s')) {
+            $this->messageError = [
+                'field' => 'date',
+                'message' => 'not allowed to create an event with a date less than the current date'
+            ];
+            return false;
+        }
+
+        return true;
+    }
     
     public function create() {
         $validate = $this->isValid();
@@ -135,7 +152,42 @@ class EventModel extends Model {
     }
 
     public function update($id) {
+        $validate = $this->isValid();
+        if(!$validate) {
+            throw new \InvalidArgumentException($valide->getError()['message']);
+        }
 
+        $eventEntity = $this
+            ->em
+            ->getRepository(EventEntity::class)
+            ->findOneBy([
+                'id' => $id
+            ]);
+
+        if(empty($eventEntity)) {
+            throw new ModelResponseException('invalid event');
+        }
+        
+        if( $eventEntity->getCancel() ) {
+            throw new ModelResponseException('not allowed to edit canceled events');
+        }
+
+        $dateTime = new \DateTime();
+        if($eventEntity->getDate()->format('Y-m-d H:i:s')  < $dateTime->format('Y-m-d H:i:s')) {
+            throw new ModelResponseException('not allowed to edit event that has already happened');
+        }
+
+        $eventEntity->setName($this->name);
+        $eventEntity->setDescription($this->description);
+        $eventEntity->setDate(new \DateTime(sprintf('%s %s', $this->date, $this->time)));
+        $eventEntity->setCity($this->city);
+        $eventEntity->setState($this->state);
+        $eventEntity->setAddress($this->address);
+
+        $this->em->persist($eventEntity);
+        $this->em->flush();
+
+        return $eventEntity;
     }
 
     public function list( $page, $itemsPerPage ) { 
@@ -151,7 +203,6 @@ class EventModel extends Model {
             ->select('COUNT(event.id) AS total')
             ->getQuery()
             ->getSingleScalarResult();
-
 
         return [ 'pages' => ceil($pages / $itemsPerPage), 'data' => $data];
         

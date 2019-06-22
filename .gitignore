@@ -1,4 +1,3 @@
 .vscode/
 vendor/
-/api/data/db.sqlite3
-
+api/data/db.sqlite3
