@@ -7,7 +7,7 @@ use Respect\Validation\Validator;
 class Validation {
     private $error;
 
-    public function isValid($field, $value, $rule, $args = [], $messageError = '') {
+    public function isValid($value, $rule, $args = [], $messageError = '') {
         $this->error = '';
 
         $func = sprintf('%s::%s', Validator::class,  $rule);
@@ -19,10 +19,7 @@ class Validation {
         }
 
         if(!$validateRule->validate($value)) {
-            $this->error = [
-                'field' => $field,
-                'message' => $messageError
-            ];
+            $this->error = $messageError;
 
             return false;
         }
