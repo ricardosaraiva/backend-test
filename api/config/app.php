@@ -4,6 +4,7 @@
 $config =  [
     'app' => [
         'dev' => true,
+        'itemsPerPageDefault' => 10,
         'dirEntity' => DIR_ROOT . 'src/entity'
     ],
     'slim' => [],

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="event")
  */
-class EventEntity
+class EventEntity implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -24,7 +24,7 @@ class EventEntity
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    private $desciption = '';
+    private $description = '';
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -44,12 +44,12 @@ class EventEntity
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    private $adress = '';
+    private $address = '';
 
     /**
-     * @ORM\Column(type="int", nullable=false)
+     * @ORM\Column(type="boolean", nullable=false)
      */
-    private $status = 1;
+    private $cancel = false;
     
 
     /**
@@ -93,21 +93,21 @@ class EventEntity
     }
 
     /**
-     * Get the value of desciption
+     * Get the value of description
      */ 
-    public function getDesciption()
+    public function getDescription()
     {
-        return $this->desciption;
+        return $this->description;
     }
 
     /**
-     * Set the value of desciption
+     * Set the value of description
      *
      * @return  self
      */ 
-    public function setDesciption($desciption)
+    public function setDescription($description)
     {
-        $this->desciption = $desciption;
+        $this->description = $description;
 
         return $this;
     }
@@ -173,42 +173,55 @@ class EventEntity
     }
 
     /**
-     * Get the value of adress
+     * Get the value of address
      */ 
-    public function getAdress()
+    public function getAddress()
     {
-        return $this->adress;
+        return $this->address;
     }
 
     /**
-     * Set the value of adress
+     * Set the value of address
      *
      * @return  self
      */ 
-    public function setAdress($adress)
+    public function setAddress($address)
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get the value of status
+     * Get the value of cancel
      */ 
-    public function getStatus()
+    public function getCancel()
     {
-        return $this->status;
+        return $this->cancel;
     }
 
     /**
-     * Set the value of status
+     * Set the value of cancel
      *
      * @return  self
      */ 
-    public function setStatus($status)
+    public function setCancel($cancel)
     {
-        $this->status = $status;
+        $this->cancel = $cancel;
 
         return $this;
+    }
+
+    public function jsonSerialize() {
+        $json = new \StdClass;
+        $json->id = $this->getId();
+        $json->name = $this->getName();
+        $json->description = $this->getDescription();
+        $json->date  = $this->getDate()->format('Y-m-d H:i:s');
+        $json->city = $this->getCity();
+        $json->state = $this->getState();
+        $json->address = $this->getAddress();
+        $json->cancel = $this->getCancel();
+        return $json;
     }
 }

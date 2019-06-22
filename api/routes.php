@@ -27,6 +27,12 @@ $container['notFoundHandler'] = function ($container) {
     };
 };
 
+$container['notAllowedHandler'] = function ($container) {
+    return function ($req, $res) use ($container) {
+        return $res->withJson('Method not allowed', 405);
+    };
+};
 
 
-$app->get('/', EventController::class . ':listAction');
+$app->get('/event[/{page}]', EventController::class . ':listAction');
+$app->post('/event', EventController::class . ':addAction');

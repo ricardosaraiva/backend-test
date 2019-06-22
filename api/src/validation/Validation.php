@@ -7,7 +7,7 @@ use Respect\Validation\Validator;
 class Validation {
     private $error;
 
-    public function isValid($value, $rule, $args = [], $messageError = '') {
+    public function validate($value, $rule, $args = [], $messageError = '') {
         $this->error = '';
 
         $func = sprintf('%s::%s', Validator::class,  $rule);
