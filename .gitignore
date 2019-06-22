@@ -1,3 +1,4 @@
 .vscode/
 vendor/
+/api/data/db.sqlite3
 
