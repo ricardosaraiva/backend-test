@@ -138,14 +138,23 @@ class EventModel extends Model {
 
     }
 
-    public function list( $page, $itemsPerPage ) {        
-        return $this->em
-            ->getRepository(EventEntity::class)
-            ->findBy([], 
-                ['id' => 'DESC'], 
-                $itemsPerPage, 
-                $this->offset($page, $itemsPerPage)
-            );
+    public function list( $page, $itemsPerPage ) { 
+        $qb = $this->em
+        ->getRepository(EventEntity::class)
+        ->createQueryBuilder('event');
+
+        $data = $qb
+            ->getQuery()
+            ->getResult();
+ 
+        $pages = $qb
+            ->select('COUNT(event.id) AS total')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+
+        return [ 'pages' => ceil($pages / $itemsPerPage), 'data' => $data];
+        
     }
 
 }
