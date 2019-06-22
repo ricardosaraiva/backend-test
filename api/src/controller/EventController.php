@@ -2,7 +2,8 @@
 
 namespace Controller;
 
-class EventController {
+class EventController 
+{
     public function listAction($req, $res) {
         return $res->withJson('Index conteudo');
     }

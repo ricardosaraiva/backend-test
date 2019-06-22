@@ -3,7 +3,8 @@
 
 $config =  [
     'app' => [
-        'dev' => true
+        'dev' => true,
+        'dirEntity' => DIR_ROOT . 'src/entity'
     ],
     'slim' => [],
     'db' => [
