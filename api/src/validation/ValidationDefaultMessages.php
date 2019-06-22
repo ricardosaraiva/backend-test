@@ -5,8 +5,7 @@ namespace Validation;
 class ValidationDefaultMessages {
 
     private $message = [
-        'date' => 'invalid date',
-        'time' => 'invalid time'
+        'date' => 'invalid datetime'
     ];
 
     public function length($min, $max = null) {
@@ -16,8 +15,8 @@ class ValidationDefaultMessages {
     }
 
     public function __call($name, $args) {
-        if(self::$message[$name]) {
-            return $this->$message[$name];
+        if(isset($this->message[$name])) {
+            return $this->message[$name];
         }
 
         return 'contains an invalid value';

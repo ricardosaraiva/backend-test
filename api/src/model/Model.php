@@ -25,31 +25,27 @@ abstract class Model
 
         foreach ($this->rules as $field => $ruleAndParameters) {
 
-            if(empty($this->{$field})) {
-                throw new \InvalidArgumentException('Invalid field');
-            }            
-
-            $rule = $ruleAndParameters[0];
-            $args = $ruleAndParameters;
+            $rule = is_string($ruleAndParameters) ? $ruleAndParameters : $ruleAndParameters[0];
+            $args = (array) $ruleAndParameters;
             unset($args[0]);
-
-            $isValid = $validation->validate($this->{$field}, $rule, $args);            
-            if(!$isValid) {
-                $this->messageError = [
+          
+            if(!$validation->validate($this->{$field}, $rule, $args)) {
+                $this->messageError[] = [
                     'field' => $field,
                     'message' => $validation->getError()
                 ];
-                
-                return false;
             }
 
-            return true;
         }
 
-        return true;
+        return count($this->messageError) == 0;
     }
 
     public function getMessageErrorValidation() {
+        return $this->messageError[0];
+    }
+
+    public function getAllMessageErrorValidation() {
         return $this->messageError;
     }
 }

@@ -21,8 +21,8 @@ class EventModel extends Model {
     protected $rules = [
         'name' => ['length', 3, 10],
         'description' => ['length',30],
-        'date' => 'date',
-        'time' => 'time',
+        'date' => ['date', 'Y-m-d'],
+        'time' => ['date', 'H:i:s'],
         'city' => ['length', 3, 100],
         'state' => ['length', 2],
         'address' => ['length', 3, 200]
@@ -121,7 +121,7 @@ class EventModel extends Model {
         $dateTime = new \DateTime();
         $dateEvent = new \DateTime(sprintf('%s %s', $this->date, $this->time));
         if($dateTime->format('Y-m-d H:i:s') >= $dateEvent->format('Y-m-d H:i:s')) {
-            $this->messageError = [
+            $this->messageError[] = [
                 'field' => 'date',
                 'message' => 'not allowed to create an event with a date less than the current date'
             ];
@@ -132,9 +132,9 @@ class EventModel extends Model {
     }
     
     public function create() {
-        $validate = $this->isValid();
-        if(!$validate) {
-            throw new \InvalidArgumentException($valide->getError()['message']);
+        
+        if(!$this->isValid()) {
+            throw new \InvalidArgumentException($this->getMessageErrorValidation()['message']);
         }
 
         $eventEntity = new EventEntity();
@@ -152,9 +152,9 @@ class EventModel extends Model {
     }
 
     public function update($id) {
-        $validate = $this->isValid();
-        if(!$validate) {
-            throw new \InvalidArgumentException($valide->getError()['message']);
+
+        if(!$this->isValid()) {
+            throw new \InvalidArgumentException($this->getMessageErrorValidation()['message']);
         }
 
         $eventEntity = $this
