@@ -16,7 +16,7 @@ import {
 } 
 from './styles';
 
-export default class NavLoged extends Component {
+export default class Nav extends Component {
 
     state = {
         menus: [

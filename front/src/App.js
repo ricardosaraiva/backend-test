@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import NavDefault from './route/NavDefault';
-import NavLoged from './route/NavLoged';
+import Default from './route/Default';
+import Loged from './route/Loged';
 import UserService from './service/UserService';
 
 export default class App extends Component {
@@ -15,10 +15,10 @@ export default class App extends Component {
 
   renderNav() {
     if(this.state.user) {
-      return <NavLoged  user={this.state.user} />;
+      return <Loged  user={this.state.user} />;
     }
     
-    return <NavDefault />
+    return <Default />
   }
 
   render() {
