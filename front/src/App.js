@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import NavDefault from './route/NavDefault';
+import NavLoged from './route/NavLoged';
+import UserService from './service/UserService';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+
+  state = {
+    user: null
+  }
+
+  componentDidMount() {
+    this.setState({user: UserService.getUser()});
+  }
+
+  renderNav() {
+    if(this.state.user) {
+      return <NavLoged  user={this.state.user} />;
+    }
+    return <NavDefault />
+
+  }
+
+  render() {
+    return (
+      <div id="wrapper">
+
+    
+      </div>
+    );
+  }
 }
-
-export default App;
