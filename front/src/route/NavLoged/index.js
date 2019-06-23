@@ -34,7 +34,7 @@ export default class NavLoged extends Component {
                 </BrandIconContainer>
 
                 <BrandText>
-                    Event Social
+                    Event Network
                 </BrandText>
             </BrandContainer>
 

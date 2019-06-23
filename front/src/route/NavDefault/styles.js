@@ -1,33 +1,45 @@
 import styled from 'styled-components';
 
-export const Container = styled.ul`
-  background: var(--primary-color);  
+const Container = styled.nav`
+  background-color: var(--primary-color) !important;  
+  width: 100%;
+  color: #FFF;
 `;
 
-export const BrandContainer =  styled.a``;
-
-export const BrandIconContainer = styled.div``;
-
-export const BrandIcon = styled.i``;
-
-export const BrandText = styled.span``;
-
-export const Divider = styled.hr`
-    border-top: 1px solid rgba(255,255,255,.15);
-    margin: 2px;
+const BrandContainer = styled.div`
+  font-size: 30px;
+`;
+const BrandIcon = styled.i`
+  margin-right: 10px;
 `;
 
-export const NavItem = styled.li`
-    display: block;
-    height: 40px;
+const BrandText = styled.span`
+  font-size: 80%;
 `;
 
-export const NavItemLink = styled.a``;
+const ContainerButton = styled.div``;
 
-export const NavItemLinkIcon = styled.i``;
-
-export const NavItemLinkText = styled.span``;
-
-export const Button = styled.button`
-     margin: 10px
+const Button = styled.button`
+  margin: 0 10px;  
 `;
+
+Container.defaultProps = {
+  className: 'navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow'
+};
+
+BrandContainer.defaultProps = {
+  className: 'd-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100'
+};
+
+Button.defaultProps = {
+  className: 'btn btn-success'
+};
+
+export {
+  Container,
+  BrandContainer,
+  BrandIcon,
+  BrandText,
+  ContainerButton,
+  Button
+}

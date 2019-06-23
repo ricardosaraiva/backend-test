@@ -17,15 +17,14 @@ export default class App extends Component {
     if(this.state.user) {
       return <NavLoged  user={this.state.user} />;
     }
+    
     return <NavDefault />
-
   }
 
   render() {
     return (
       <div id="wrapper">
-
-    
+        {this.renderNav()}
       </div>
     );
   }
