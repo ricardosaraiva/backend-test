@@ -8,9 +8,13 @@ import {
   ContainerButton,
   Button
 } from './styles';
-import Modal from '../../component/Modal';
+import Modal, {Title, Body} from '../../component/Modal';
 
 export default class NavDefault extends Component {
+  state = {
+    loginModal : true
+  };
+
   render() {
     return (
       <Container>
@@ -24,8 +28,24 @@ export default class NavDefault extends Component {
           <Button>Register</Button>
         </ContainerButton>
 
-        <Modal>
-          teste
+        <Modal 
+          open={this.state.loginModal} 
+          handlerClose={() => {this.setState({loginModal: false})}}
+          closeButton
+          >
+
+          <Title>Login</Title>
+          
+          <Body>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Distinctio odio architecto neque in eos perferendis. 
+            Reprehenderit eaque consequuntur assumenda aspernatur fugit laudantium, 
+            unde odit quod, tenetur, iste laborum ut. 
+            Delectus ab hic necessitatibus incidunt modi, labore fugiat deserunt facilis eum 
+            tenetur recusandae reprehenderit consectetur nemo ad ratione unde. 
+            Placeat, sit.
+          </Body>
+          
         </Modal>
 
 
