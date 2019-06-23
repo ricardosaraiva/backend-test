@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     position: absolute;
+    overflow-x: hidden;
+    width: 100%;
     top: 0;
     left: 0;
 `;
@@ -24,9 +26,11 @@ export const Title = styled.h2`
     background: var(--primary-color);
     border-bottom: 1px solid #DDD;
     padding: 10px;
+    width: 100%;
     color: #fff;
 `;
 
 export const Body = styled.div`
     padding: 10px;
+    max-width: 100%;
 `;
