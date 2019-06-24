@@ -191,12 +191,16 @@ class EventModel extends Model {
     }
 
     public function list( $page, $itemsPerPage ) { 
+
         $qb = $this->em
         ->getRepository(EventEntity::class)
         ->createQueryBuilder('event');
 
         $data = $qb
+            ->orderBy('event.id', 'DESC')
             ->getQuery()
+            ->setFirstResult($this->offset($page, $itemsPerPage))
+            ->setMaxResults($itemsPerPage)
             ->getResult();
  
         $total = $qb
@@ -209,6 +213,7 @@ class EventModel extends Model {
             'itemsPerPage' => $itemsPerPage, 
             'data' => $data
         ];
+
     }
 
     public function detail($id) {
