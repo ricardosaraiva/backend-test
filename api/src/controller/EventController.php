@@ -66,6 +66,6 @@ class EventController
     }
 
     public function detailAction($req, $res, $args) {
-
+        return $res->withJson($this->eventModel->detail($args['id']));
     }
 }

@@ -208,4 +208,8 @@ class EventModel extends Model {
         
     }
 
+    public function detail($id) {
+        return $this->em->getRepository(EventEntity::class)->find($id);
+    }
+
 }
