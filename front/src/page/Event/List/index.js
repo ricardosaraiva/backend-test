@@ -4,29 +4,41 @@ import Table , {THead, TBody, Tr, Th, Td, TLinkIcon} from '../../../component/Ta
 import Form , {Input, ButtonSubmit} from '../../../component/Form';
 import Row from '../../../component/Row';
 import EventService from '../../../service/EventService';
+import Pagination from '../../../component/Pagination';
 
 
 export default class List extends Component {
   state = {
-    events: {
-      page: 0,
-      data: []
-    }
+    page: {
+      active: 1,
+      itemsPerPage: 0,
+      totalItem: 0      
+    },
+    events: []
   };
 
   constructor(props) {
     super(props);
-
     this.serviceEvent = new EventService();
   }
 
-  async getEvents() {
-    const events = await this.serviceEvent.getList();
-    this.setState({events: events});
+  async getEvents(page) {
+    const events = await this.serviceEvent.getList(page);
+    const pageData = {
+      active: page, 
+      itemsPerPage: events.itemsPerPage,
+      totalItem: events.items
+    };
+
+    this.setState({events: events.data, page : pageData});
   }
 
   componentDidMount() {
-    this.getEvents();
+    this.getEvents(1);
+  }
+
+  handlePage(pageNumber) {
+    this.getEvents(pageNumber);
   }
 
   render() {
@@ -52,7 +64,7 @@ export default class List extends Component {
             </Tr>
           </THead>
           <TBody>
-            {this.state.events.data.map(event => (
+            {this.state.events.map(event => (
               <Tr key={event.id}>
                 <Td>{event.name}</Td>
                 <Td>{event.date}</Td>
@@ -65,6 +77,14 @@ export default class List extends Component {
             ))}
           </TBody>
         </Table>
+
+        <Pagination 
+          active={this.state.page.active} 
+          itemsPerPage={this.state.page.itemsPerPage}
+          totalItem={this.state.page.totalItem}
+          handle={pageNunber => this.handlePage(pageNunber)}
+        />
+
     </Container>;
   }
 }

@@ -5,9 +5,9 @@ export default class EventService {
         this.service = Service('event');
     }
     
-    async getList() {
+    async getList(page) {
         try {
-            const events = await this.service.get('');
+            const events = await this.service.get(`/${page}`);
             return events.data;
         } catch(e) {
             alert(e);
