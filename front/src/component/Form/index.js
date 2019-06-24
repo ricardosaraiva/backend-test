@@ -11,7 +11,7 @@ import {
 const Input = function Input(props) {
   return (
     <Container {...props.container}>
-        <Label for={props.id}>{props.label}</Label>
+        <Label htmlFor={props.id}>{props.label}</Label>
         <InputElement id={props.id}/>
     </Container>
   );
@@ -20,7 +20,7 @@ const Input = function Input(props) {
 const InputFile = function InputFile(props) {
   return (
     <Container {...props.container}>
-        <Label for={props.id}>{props.label}</Label>
+        <Label htmlFor={props.id}>{props.label}</Label>
         <InputElement id={props.id} type="file"/>
     </Container>
   );

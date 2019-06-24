@@ -1,5 +1,5 @@
 import React from 'react';
 
-import { Title } from './styles';
+import { Title , Container } from './styles';
 
-export { Title };
+export { Title, Container };

@@ -2,11 +2,18 @@ import styled from 'styled-components';
 
 const Container = styled.nav`
   background-color: var(--primary-color) !important;  
+  position: fixed;
   width: 100%;
+  margin: 0;
   color: #FFF;
+  display: block;
+  clear: both;
+  z-index: 100;
 `;
 
 const BrandContainer = styled.div`
+  padding-top: 3px;
+  float: left;
   font-size: 30px;
 `;
 const BrandIcon = styled.i`
@@ -17,10 +24,12 @@ const BrandText = styled.span`
   font-size: 80%;
 `;
 
-const ContainerButton = styled.div``;
+const ContainerButton = styled.div`
+  float: right;
+`;
 
 const Button = styled.button`
-  margin: 0 10px;  
+  margin: 8px 10px;  
 `;
 
 Container.defaultProps = {
