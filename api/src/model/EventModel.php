@@ -199,13 +199,16 @@ class EventModel extends Model {
             ->getQuery()
             ->getResult();
  
-        $pages = $qb
+        $total = $qb
             ->select('COUNT(event.id) AS total')
             ->getQuery()
             ->getSingleScalarResult();
 
-        return [ 'pages' => ceil($pages / $itemsPerPage), 'data' => $data];
-        
+        return [ 
+            'items' => $total , 
+            'itemsPerPage' => $itemsPerPage, 
+            'data' => $data
+        ];
     }
 
     public function detail($id) {
