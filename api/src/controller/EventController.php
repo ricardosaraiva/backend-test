@@ -64,4 +64,8 @@ class EventController
         $events = $this->eventModel->list($page, $this->itemsPerPage);
         return $res->withJson($events);        
     }
+
+    public function detailAction($req, $res, $args) {
+
+    }
 }

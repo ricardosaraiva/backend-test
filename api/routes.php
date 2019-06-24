@@ -34,6 +34,20 @@ $container['notAllowedHandler'] = function ($container) {
 };
 
 
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+});
+
+$app->add(function ($req, $res, $next) {
+    $response = $next($req, $res);
+    return $response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+});
+
+
 $app->get('/event[/{page}]', EventController::class . ':listAction');
 $app->post('/event', EventController::class . ':addAction');
 $app->put('/event/{id}', EventController::class . ':updateAction');
+$app->get('/event/{id}/detail', EventController::class . ':detailAction');
