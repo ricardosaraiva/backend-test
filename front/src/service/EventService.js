@@ -11,7 +11,17 @@ export default class EventService {
             return events.data;
         } catch(e) {
             alert(e);
-            console.log(e);   
+            console.error(e);   
+        }
+    }
+
+    async getDetail(id) {
+        try {
+            const events = await this.service.get(`/${id}/detail`);
+            return events.data;
+        } catch(e) {
+            alert(e);
+            console.error(e);   
         }
     }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { THead, TBody, Tr, Th, Td, TButtonIcon } from './styles';
+import { THead, TBody, Tr, Th, Td, TButtonIcon, TLinkIcon } from './styles';
+
 
 export default function Table(props) {
   return (
@@ -16,5 +17,6 @@ export {
     Tr,
     Th,
     Td,
-    TButtonIcon
+    TButtonIcon,
+    TLinkIcon
 }

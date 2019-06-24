@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {Container, Title} from '../../../component/Page';
-import Table , {THead, TBody, Tr, Th, Td, TButtonIcon} from '../../../component/Table';
+import Table , {THead, TBody, Tr, Th, Td, TLinkIcon} from '../../../component/Table';
 import Form , {Input, ButtonSubmit} from '../../../component/Form';
 import Row from '../../../component/Row';
 import EventService from '../../../service/EventService';
@@ -57,9 +57,9 @@ export default class List extends Component {
                 <Td>{event.name}</Td>
                 <Td>{event.date}</Td>
                 <Td className="text-center">
-                  <TButtonIcon>
+                  <TLinkIcon to={`event/${event.id}/detail`} >
                     <i className="fas fa-search" />
-                  </TButtonIcon>
+                  </TLinkIcon>
                 </Td>
               </Tr>
             ))}
