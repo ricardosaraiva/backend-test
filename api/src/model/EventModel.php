@@ -4,6 +4,7 @@ namespace Model;
 
 use Model\Model;
 use Entity\EventEntity;
+use Respect\Validation\Validator;
 
 class EventModel extends Model {
 
@@ -190,11 +191,41 @@ class EventModel extends Model {
         return $eventEntity;
     }
 
-    public function list( $page, $itemsPerPage ) { 
+    public function list( $page, $itemsPerPage, $filter = [] ) { 
 
         $qb = $this->em
         ->getRepository(EventEntity::class)
         ->createQueryBuilder('event');
+
+        if(!empty($filter['dateStart'])) {
+
+            if(!Validator::date()->validate($filter['dateStart'])) {
+                throw new ModelResponseException("Invalida date start");
+                
+            }
+
+            $qb
+                ->andWhere('event.date >= :dateStart ')
+                ->setParameter('dateStart', $filter['dateStart'] . ' 00:00:00');
+        }
+
+        if(!empty($filter['dateEnd'])) {
+
+            if(!Validator::date()->validate($filter['dateEnd'])) {
+                throw new ModelResponseException("Invalida date end");
+                
+            }
+
+            $qb
+                ->andWhere('event.date <= :dateEnd ')
+                ->setParameter('dateEnd', $filter['dateEnd'] . ' 23:59:59');
+        }
+
+        if(!empty($filter['place'])) {
+            $qb
+                ->andWhere('(event.city LIKE :place  OR event.state LIKE :place  OR event.address LIKE :place )')
+                ->setParameter('place', '%' . $filter['place'] . '%');
+        }
 
         $data = $qb
             ->orderBy('event.id', 'DESC')

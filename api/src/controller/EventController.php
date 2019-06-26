@@ -61,8 +61,15 @@ class EventController
 
     public function listAction($req, $res, $args) {
         $page = empty($args['page']) ? 1 : $args['page'];
-        $events = $this->eventModel->list($page, $this->itemsPerPage);
-        return $res->withJson($events);        
+        $params = $req->getQueryParams();
+
+        try {
+            $events = $this->eventModel->list($page, $this->itemsPerPage, $params);
+            return $res->withJson($events);        
+        } catch(\Exception $e) {
+            // return $res->withJson($e->getMessage(), 400);        
+        }
+        
     }
 
     public function detailAction($req, $res, $args) {
