@@ -13,10 +13,14 @@ class EventController
      */
     private $eventModel;
     private $itemsPerPage;
+    private $user;
 
     public function __construct($container) {
         $this->eventModel = new EventModel($container->get(EntityManager::class)); 
         $this->itemsPerPage = $container->get('config')['app']['itemsPerPageDefault'];
+        if( $container->has('user') ) {
+            $this->user = $container->get('user');
+        }
     }
 
     public function addAction ($req, $res) {
@@ -29,6 +33,7 @@ class EventController
         $this->eventModel->setCity($body['city']);
         $this->eventModel->setState($body['state']);
         $this->eventModel->setAddress($body['address']);
+        $this->eventModel->setUser($this->user);
 
         if(!$this->eventModel->isValid()) {
             return $res->withJson($this->eventModel->getMessageErrorValidation(), 400);
@@ -47,6 +52,7 @@ class EventController
         $this->eventModel->setCity($body['city']);
         $this->eventModel->setState($body['state']);
         $this->eventModel->setAddress($body['address']);
+        $this->eventModel->setUser($this->user);
 
         if(!$this->eventModel->isValid()) {
             return $res->withJson($this->eventModel->getMessageErrorValidation(), 400);

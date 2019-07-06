@@ -53,6 +53,7 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 $app
 ->group('/', function () use ($app) {
     $app->post('event', EventController::class . ':addAction');
+    $app->delete('event', EventController::class . ':cancelAction');
     $app->put('event/{id}', EventController::class . ':updateAction');
 })
 ->add(new Slim\Middleware\JwtAuthentication([
@@ -74,7 +75,13 @@ $app
             exit;
         }
 
-        $container['user'] = $em->getRepository(UserEntity::class)->find($userLogin->getIdUser());
+        $user = $em->getRepository(UserEntity::class)->find($userLogin->getIdUser());
+
+        if(empty($user)) {
+            throw new  Exception('Invalid user');
+        }
+
+        $container['user'] = $user;
     }
 ]));
 

@@ -3,11 +3,14 @@
 namespace Model;
 
 use Model\Model;
+use Entity\UserEntity;
 use Entity\EventEntity;
 use Respect\Validation\Validator;
+use Entity\EventOrganizationEntity;
 
 class EventModel extends Model {
 
+    protected $user;
     protected $name;
     protected $description;
     protected $date;
@@ -113,6 +116,21 @@ class EventModel extends Model {
         return $this;
     }
 
+    /**
+     * Set the value of user
+     *
+     * @return  self
+     */ 
+    public function setUser( UserEntity $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
+    
+
     public function isValid() {
         if (!parent::isValid()) {
             return false;
@@ -148,6 +166,12 @@ class EventModel extends Model {
         $this->em->persist($eventEntity);
         $this->em->flush();
 
+        $eventOrganizationEntity = new EventOrganizationEntity();
+        $eventOrganizationEntity->setIdEvent($eventEntity->getId());
+        $eventOrganizationEntity->setIdUser($this->user->getId());
+        $this->em->persist($eventOrganizationEntity);
+        $this->em->flush();
+
         return $eventEntity;
     }
 
@@ -176,6 +200,18 @@ class EventModel extends Model {
         if($eventEntity->getDate()->format('Y-m-d H:i:s')  < $dateTime->format('Y-m-d H:i:s')) {
             throw new ModelResponseException('not allowed to edit event that has already happened');
         }
+
+        $eventOrganizationEntity = $this->em
+            ->getRepository(EventOrganizationEntity::class)
+            ->findOneBy([
+                'idEvent' => $eventEntity->getId(),
+                'idUser' => $this->user->getId()
+            ]);
+
+        if(empty($eventOrganizationEntity)) {
+            throw new ModelResponseException('without permission to edit event');
+        }
+
 
         $eventEntity->setName($this->name);
         $eventEntity->setDescription($this->description);
