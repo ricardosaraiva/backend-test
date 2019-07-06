@@ -53,7 +53,7 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 $app
 ->group('/', function () use ($app) {
     $app->post('event', EventController::class . ':addAction');
-    $app->delete('event', EventController::class . ':cancelAction');
+    $app->delete('event/{id}', EventController::class . ':cancelAction');
     $app->put('event/{id}', EventController::class . ':updateAction');
 })
 ->add(new Slim\Middleware\JwtAuthentication([

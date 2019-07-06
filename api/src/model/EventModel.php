@@ -10,7 +10,6 @@ use Entity\EventOrganizationEntity;
 
 class EventModel extends Model {
 
-    protected $user;
     protected $name;
     protected $description;
     protected $date;
@@ -115,20 +114,6 @@ class EventModel extends Model {
 
         return $this;
     }
-
-    /**
-     * Set the value of user
-     *
-     * @return  self
-     */ 
-    public function setUser( UserEntity $user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-
     
 
     public function isValid() {
@@ -175,6 +160,19 @@ class EventModel extends Model {
         return $eventEntity;
     }
 
+    public function validateUserIsOrganizationEvent($idUser, $idEvent) {
+        $eventOrganizationEntity = $this->em
+            ->getRepository(EventOrganizationEntity::class)
+            ->findOneBy([
+                'idEvent' => $idEvent,
+                'idUser' => $idUser
+            ]);
+
+        if(empty($eventOrganizationEntity)) {
+            throw new ModelResponseException('without permission to edit event');
+        }
+    }
+
     public function update($id) {
 
         if(!$this->isValid()) {
@@ -201,17 +199,7 @@ class EventModel extends Model {
             throw new ModelResponseException('not allowed to edit event that has already happened');
         }
 
-        $eventOrganizationEntity = $this->em
-            ->getRepository(EventOrganizationEntity::class)
-            ->findOneBy([
-                'idEvent' => $eventEntity->getId(),
-                'idUser' => $this->user->getId()
-            ]);
-
-        if(empty($eventOrganizationEntity)) {
-            throw new ModelResponseException('without permission to edit event');
-        }
-
+        $this->validateUserIsOrganizationEvent($this->user->getId(), $eventEntity->getId());
 
         $eventEntity->setName($this->name);
         $eventEntity->setDescription($this->description);
@@ -284,6 +272,22 @@ class EventModel extends Model {
 
     public function detail($id) {
         return $this->em->getRepository(EventEntity::class)->find($id);
+    }
+
+    public function cancel($id) {
+
+        $this->validateUserIsOrganizationEvent($this->user->getId(), $id);
+        
+        $eventEntity = $this->em
+            ->getRepository(EventEntity::class)
+            ->find($id);
+
+        $eventEntity->setCancel(true);
+        $this->em->persist($eventEntity);
+        $this->em->flush();
+
+
+        return $eventEntity;
     }
 
 }

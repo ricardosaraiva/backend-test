@@ -8,11 +8,13 @@ use Doctrine\ORM\EntityManager;
 abstract class Model 
 {
     protected $em;
+    protected $user;
     protected $messageError = [];
     protected $rules = [];
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, $user) {
         $this->em = $em;
+        $this->user = $user;
     }
 
     protected function offset ($page, $itemsPerPage) {
