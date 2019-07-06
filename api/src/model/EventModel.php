@@ -16,7 +16,6 @@ class EventModel extends Model {
     protected $state;
     protected $address;
 
-
     protected $error;
 
     protected $rules = [

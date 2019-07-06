@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="user")
  */
-class UserEntity
+class UserEntity implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -22,7 +22,7 @@ class UserEntity
     private $name = '';
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, unique=true)
      */
     private $email = '';
     
@@ -32,14 +32,14 @@ class UserEntity
     private $password;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $bio;
+    private $bio = '';
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $picture;
+    private $picture = '';
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -211,5 +211,17 @@ class UserEntity
         $this->email = $email;
 
         return $this;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' =>$this->getId(),
+            'name' =>$this->getName(),
+            'email' =>$this->getEmail(),
+            'bio' =>$this->getBio(),
+            'picture' =>$this->getPicture(),
+            'city' =>$this->getCity(),
+            'state' =>$this->getState()
+        ];
     }
 }

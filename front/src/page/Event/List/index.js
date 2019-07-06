@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {Container, Title} from '../../../component/Page';
 import Table , {THead, TBody, Tr, Th, Td, TLinkIcon} from '../../../component/Table';
-import Form , {Input, ButtonSubmit} from '../../../component/Form';
+import Form , {Input, ButtonSubmit, InputMask} from '../../../component/Form';
 import Row from '../../../component/Row';
 import EventService from '../../../service/EventService';
 import Pagination from '../../../component/Pagination';
@@ -9,6 +9,11 @@ import Pagination from '../../../component/Pagination';
 
 export default class List extends Component {
   state = {
+    filter: {
+      dateStart: '',
+      dateEnd: '',
+      place: ''
+    },
     page: {
       active: 1,
       itemsPerPage: 0,
@@ -22,8 +27,8 @@ export default class List extends Component {
     this.serviceEvent = new EventService();
   }
 
-  async getEvents(page) {
-    const events = await this.serviceEvent.getList(page);
+  async getEvents(page, filter) {
+    const events = await this.serviceEvent.getList(page, filter);
     const pageData = {
       active: page, 
       itemsPerPage: events.itemsPerPage,
@@ -34,21 +39,50 @@ export default class List extends Component {
   }
 
   componentDidMount() {
-    this.getEvents(1);
+    this.getEvents(1, {});
   }
 
   handlePage(pageNumber) {
-    this.getEvents(pageNumber);
+    this.getEvents(pageNumber, this.getEvents.filter);
+  }
+
+  handleFilter(e) {
+    const filter = Object.assign({}, this.state.filter);
+    filter[e.target.name] = e.target.value;
+
+    this.setState({filter: filter});
+  }
+
+  filter(e) {
+    e.preventDefault();
+    this.getEvents(1, this.state.filter);
   }
 
   render() {
     return <Container>
         <Title>Events</Title>
 
-        <Form>
+        <Form onSubmit={e => this.filter(e)}>
           <Row>
-            <Input label="place" label="Place" />
-            <Input label="date" label="Date" />
+            <Input 
+              id="place" 
+              label="Place" 
+              input={{onChange:  e => this.handleFilter(e)}}
+              container={{className:'col-md-4'}}/>
+              
+            <InputMask
+              id="dateStart" 
+              label="Date"  
+              mask="9999-99-99"
+              input={{onChange:  e => this.handleFilter(e)}}
+              container={{className:'col-md-4'}}/>
+
+            <InputMask
+              id="dateEnd" 
+              label="Date"  
+              mask="9999-99-99"
+              input={{onChange:  e => this.handleFilter(e)}}
+              container={{className:'col-md-4'}}/>
           </Row>
           <ButtonSubmit>
             Filtrar

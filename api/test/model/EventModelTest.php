@@ -17,12 +17,11 @@ class EventModelTest extends TestCase {
     public function testCreateEvent() {
         $this->eventModel->setName('Event Name');
         $this->eventModel->setDescription(
-            'Incididunt sint eiusmod consequat anim nisi quis officia laborum commodo culpa proident. 
-            Tempor dolore sunt ex elit irure esse reprehenderit non. 
-            Velit pariatur laborum id nisi adipisicing voluptate cupidatat reprehenderit duis culpa id 
-            reprehenderit velit. Esse et pariatur mollit commodo in amet ad. Est aute Lorem anim Lorem. 
-            Tempor pariatur enim do officia consectetur pariatur in magna velit nulla dolor exercitation 
-            officia.'
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+             ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+              ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+               reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+               occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
         );
 
         $dateTime = new \DateTime();

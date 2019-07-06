@@ -1,6 +1,11 @@
 <?php 
 
+use Firebase\JWT\JWT;
+use Entity\UserEntity;
+use Entity\UserLoginEntity;
 use Controller\EventController;
+use Controller\LoginController;
+use Doctrine\ORM\EntityManager;
 
 //setting error handle
 $container['errorHandler'] = function ($container) {
@@ -33,12 +38,10 @@ $container['notAllowedHandler'] = function ($container) {
     };
 };
 
-
+//enable cors
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
-});
-
-$app->add(function ($req, $res, $next) {
+})->add(function ($req, $res, $next) {
     $response = $next($req, $res);
     return $response
             ->withHeader('Access-Control-Allow-Origin', '*')
@@ -47,7 +50,36 @@ $app->add(function ($req, $res, $next) {
 });
 
 
+$app
+->group('/', function () use ($app) {
+    $app->post('event', EventController::class . ':addAction');
+    $app->put('event/{id}', EventController::class . ':updateAction');
+})
+->add(new Slim\Middleware\JwtAuthentication([
+    "regexp" => "/(.*)/", 
+    "header" => "X-Token",
+    "secret" => $container['jwtKey'],
+    "callback" => function ($req, $res, $args) use ($container) {
+        
+        $em =  $container->get(EntityManager::class);
+
+        $userLogin = $em
+            ->getRepository(UserLoginEntity::class)
+            ->findOneBy([
+                'token' => $args['token']
+            ]);
+
+        if(empty($userLogin)) {
+            header("HTTP/1.1 401 Unauthorized");
+            exit;
+        }
+
+        $container['user'] = $em->getRepository(UserEntity::class)->find($userLogin->getIdUser());
+    }
+]));
+
+
+$app->post('/register', LoginController::class . ':registerAction');
+$app->post('/login', LoginController::class . ':loginAction');
 $app->get('/event[/{page}]', EventController::class . ':listAction');
-$app->post('/event', EventController::class . ':addAction');
-$app->put('/event/{id}', EventController::class . ':updateAction');
 $app->get('/event/{id}/detail', EventController::class . ':detailAction');

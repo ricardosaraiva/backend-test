@@ -1,11 +1,6 @@
-import React, { Component, Fragment } from 'react';
-
-import Modal, {Title, Body} from '../../component/Modal';
-import Row from '../../component/Row';
-import Form, {Input} from '../../component/Form';
+import React, { Component } from 'react';
 import Login from '../../component/Login';
 import Register from '../../component/Register';
-import List from '../../page/Event/List';
 
 import {
   Container,

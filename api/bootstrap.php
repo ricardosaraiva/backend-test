@@ -21,6 +21,9 @@ $container['config'] = function() use ($config) {
     return $config;
 };
 
+$container['jwtKey'] = 'kljrereoihlkjn,.mfnd879';
+$container['dirPicuture'] = DIR_ROOT . 'public/pictures/';
+
 $container[EntityManager::class] = function ($container) {
     $doctrineConfig = Setup::createAnnotationMetadataConfiguration(
         [$container->get('config')['app']['dirEntity']], 
