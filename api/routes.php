@@ -3,6 +3,7 @@
 use Firebase\JWT\JWT;
 use Entity\UserEntity;
 use Entity\UserLoginEntity;
+use Controller\UserController;
 use Controller\EventController;
 use Controller\LoginController;
 use Doctrine\ORM\EntityManager;
@@ -52,6 +53,9 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 
 $app
 ->group('/', function () use ($app) {
+
+    $app->post('user/invitation', UserController::class . ':invitationAction');
+
     $app->post('event', EventController::class . ':addAction');
     $app->delete('event/{id}', EventController::class . ':cancelAction');
     $app->put('event/{id}', EventController::class . ':updateAction');

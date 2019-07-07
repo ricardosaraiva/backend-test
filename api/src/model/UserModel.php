@@ -5,6 +5,8 @@ namespace Model;
 use Firebase\JWT\JWT;
 use Entity\UserEntity;
 use Entity\UserLoginEntity;
+use Entity\UserInvitationEntity;
+use Respect\Validation\Validator;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class UserModel extends Model {
@@ -178,5 +180,42 @@ class UserModel extends Model {
         }
 
         return false;
+    }
+
+    public function invitation($email) {
+
+        if(!Validator::email()->validate($email)) {
+            throw new ModelResponseException('Invalid email');            
+        }
+
+        if($email == $this->user->getEmail()) {
+            throw new ModelResponseException('It is not possible to invite yourself');            
+        }
+
+        $userInvitationValidate = $this->em
+            ->getRepository(UserInvitationEntity::class)
+            ->findOneBy([
+                'idUser' => $this->user->getId(),
+                'emailFriend' => $email
+            ]);
+
+        if(!empty($userInvitationValidate)) {
+            throw new ModelResponseException('already exists invitation to this user');
+        }
+
+        $userInvitationEntity = new UserInvitationEntity();
+        $userInvitationEntity->setIdUser($this->user->getId());
+        $userInvitationEntity->setEmailFriend($email);
+        $this->em->persist($userInvitationEntity);
+        $this->em->flush();
+
+        $userEntity = $this->em
+            ->getRepository(UserEntity::class)
+            ->findOneBy(['email' => $email]);
+
+        //validate if exists user in database
+        if(empty($userEntity)) {
+            //TODO: Implement sending registration email 
+        }
     }
 }
