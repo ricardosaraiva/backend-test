@@ -55,6 +55,7 @@ $app
 ->group('/', function () use ($app) {
 
     $app->post('user/invitation', UserController::class . ':invitationAction');
+    $app->get('user/invitation', UserController::class . ':invitationListAction');
 
     $app->post('event', EventController::class . ':addAction');
     $app->delete('event/{id}', EventController::class . ':cancelAction');

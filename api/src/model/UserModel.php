@@ -218,4 +218,20 @@ class UserModel extends Model {
             //TODO: Implement sending registration email 
         }
     }
+
+    public function invitationList() {
+        return $this->em
+            ->getRepository(UserEntity::class)
+            ->createQueryBuilder('user')
+            ->innerJoin(
+                UserInvitationEntity::class,
+                'userInvitation',
+                'WITH', 
+                'userInvitation.idUser = user.id'
+            )
+            ->andWhere('userInvitation.emailFriend = :email')
+            ->setParameter('email', $this->user->getEmail())
+            ->getQuery()
+            ->getResult();
+    }
 }

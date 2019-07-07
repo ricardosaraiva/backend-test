@@ -25,4 +25,8 @@ class UserController {
             return $res->withJson($e->getMessage(), 400);
         }
     }
+
+    public function invitationListAction($req, $res) {
+        return $res->withJson($this->userModel->invitationList());
+    }
 }
