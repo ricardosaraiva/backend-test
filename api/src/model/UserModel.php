@@ -281,6 +281,27 @@ class UserModel extends Model {
         $this->em->flush();
     }
 
+    public function friendsList() {
+
+        return $this->em
+            ->getRepository(UserEntity::class)
+            ->createQueryBuilder('user')
+            ->join(
+                UserFriendEntity::class,
+                'userFriend',
+                'WITH',
+                'userFriend.idUser = user.id OR userFriend.emailFriend = user.email'
+            )
+            ->andWhere('user.id != :myId')
+            ->andWhere('(userFriend.emailFriend = :email OR userFriend.idUser = :id)')
+            ->andWhere('userFriend.status = 1')
+            ->setParameter('email', $this->user->getEmail())
+            ->setParameter('myId', $this->user->getId())
+            ->setParameter('id', $this->user->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
     public function undoFriendship($idUser) {
 
         $userFriendEntity = $this->em

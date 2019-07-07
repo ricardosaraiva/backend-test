@@ -51,4 +51,8 @@ class UserController {
             return $res->withJson($e->getMessage(), 400);
         }
     }
+
+    public function friendsListAction($req, $res) {
+        return $res->withJson($this->userModel->friendsList());
+    }
 }
