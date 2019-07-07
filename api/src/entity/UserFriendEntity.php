@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user_invitation")
+ * @ORM\Table(name="user_friend")
  */
-class UserInvitationEntity {
+class UserFriendEntity {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -25,6 +25,12 @@ class UserInvitationEntity {
      * @ORM\Column(type="string", nullable=false)
      */
     private $emailFriend;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $status;
+
 
     /**
      * Get the value of id
@@ -82,6 +88,26 @@ class UserInvitationEntity {
     public function setEmailFriend($emailFriend)
     {
         $this->emailFriend = $emailFriend;
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */ 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */ 
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
         return $this;
     }
 }

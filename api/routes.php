@@ -56,6 +56,9 @@ $app
 
     $app->post('user/invitation', UserController::class . ':invitationAction');
     $app->get('user/invitation', UserController::class . ':invitationListAction');
+    $app->delete('user/{id}/invitation', UserController::class . ':invitationRejectAction');
+    $app->put('user/{id}/invitation', UserController::class . ':invitationAccpetAction');
+    $app->delete('user/{id}/undo_friendship', UserController::class . ':undoFriendshipAction');
 
     $app->post('event', EventController::class . ':addAction');
     $app->delete('event/{id}', EventController::class . ':cancelAction');

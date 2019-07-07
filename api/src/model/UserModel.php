@@ -5,7 +5,7 @@ namespace Model;
 use Firebase\JWT\JWT;
 use Entity\UserEntity;
 use Entity\UserLoginEntity;
-use Entity\UserInvitationEntity;
+use Entity\UserFriendEntity;
 use Respect\Validation\Validator;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
@@ -193,20 +193,41 @@ class UserModel extends Model {
         }
 
         $userInvitationValidate = $this->em
-            ->getRepository(UserInvitationEntity::class)
+            ->getRepository(UserFriendEntity::class)
             ->findOneBy([
                 'idUser' => $this->user->getId(),
                 'emailFriend' => $email
             ]);
 
         if(!empty($userInvitationValidate)) {
-            throw new ModelResponseException('already exists invitation to this user');
+            $error = ($userInvitationValidate->getStatus()) ? 'You are already friends' : 
+            'already exists invitation to this user';    
+            
+            throw new ModelResponseException($error);
         }
 
-        $userInvitationEntity = new UserInvitationEntity();
-        $userInvitationEntity->setIdUser($this->user->getId());
-        $userInvitationEntity->setEmailFriend($email);
-        $this->em->persist($userInvitationEntity);
+        $userFriendValidate = $this->em
+            ->getRepository(UserFriendEntity::class)
+            ->createQueryBuilder('userFriend')
+            ->join(UserEntity::class, 'user', 'WITH', 'userFriend.idUser = user.id')
+            ->andWhere('userFriend.emailFriend = :emailFriend')
+            ->andWhere('user.email = :emailUser')
+            ->setParameter('emailFriend', $email)
+            ->setParameter('emailUser', $this->user->getEmail())
+            ->getQuery()
+            ->getResult();
+
+            if(!empty($userFriendValidate)) {
+                $error = ($userInvitationValidate->getStatus()) ? 'You are already friends' : 
+                    'already exists invitation to this user';    
+
+                throw new ModelResponseException($error);
+            }
+
+        $userFriendEntity = new UserFriendEntity();
+        $userFriendEntity->setIdUser($this->user->getId());
+        $userFriendEntity->setEmailFriend($email);
+        $this->em->persist($userFriendEntity);
         $this->em->flush();
 
         $userEntity = $this->em
@@ -224,14 +245,75 @@ class UserModel extends Model {
             ->getRepository(UserEntity::class)
             ->createQueryBuilder('user')
             ->innerJoin(
-                UserInvitationEntity::class,
-                'userInvitation',
+                UserFriendEntity::class,
+                'userFriend',
                 'WITH', 
-                'userInvitation.idUser = user.id'
+                'userFriend.idUser = user.id'
             )
-            ->andWhere('userInvitation.emailFriend = :email')
+            ->andWhere('userFriend.emailFriend = :email')
+            ->andWhere('userFriend.status IS NULL')
             ->setParameter('email', $this->user->getEmail())
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     *
+     * @param bool $status
+     * @return void
+     */
+    public function invitationStatus($idUser, $status) {
+
+        $userFriendEntity = $this->em
+            ->getRepository(UserFriendEntity::class)
+            ->findOneBy([
+                'idUser' => $idUser,
+                'emailFriend' => $this->user->getEmail(),
+            ]);
+
+        if(empty($userFriendEntity)) {
+            $error = $status ? 'Invalid friendship request' : 'Invalid Friend';
+            throw new ModelResponseException($error);
+        }
+
+        $userFriendEntity->setStatus((bool) $status);
+        $this->em->persist($userFriendEntity);
+        $this->em->flush();
+    }
+
+    public function undoFriendship($idUser) {
+
+        $userFriendEntity = $this->em
+            ->getRepository(UserFriendEntity::class)
+            ->findOneBy([
+                'idUser' => $idUser,
+                'emailFriend' => $this->user->getEmail(),
+                'status' => true
+            ]);
+
+        if(!empty($userFriendEntity)) {
+            $this->em->remove($userFriendEntity);
+            $this->em->flush();
+            return;
+        }
+
+        $userFriendEntity = $this->em
+            ->getRepository(UserFriendEntity::class)
+            ->createQueryBuilder('userFriend')
+            ->join(UserEntity::class, 'user', 'WITH', 'userFriend.emailFriend = user.email')
+            ->andWhere('userFriend.idUser = :idUser')
+            ->andWhere('user.id = :id')
+            ->andWhere('userFriend.status = true')
+            ->setParameter('idUser', $this->user->getId())
+            ->setParameter('id', $idUser)
+            ->getQuery()
+            ->getResult();
+        
+            if(empty($userFriendEntity)) {
+                throw new ModelResponseException('Invalid friendship request');
+            }
+
+            $this->em->remove($userFriendEntity[0]);
+            $this->em->flush();
     }
 }

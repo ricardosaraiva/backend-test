@@ -19,8 +19,6 @@ class UserController {
 
         try {
             $this->userModel->invitation($body['email']);
-            
-            return $res->withJson('invitation sent successfully');
         } catch( ModelResponseException $e ) {
             return $res->withJson($e->getMessage(), 400);
         }
@@ -28,5 +26,29 @@ class UserController {
 
     public function invitationListAction($req, $res) {
         return $res->withJson($this->userModel->invitationList());
+    }
+
+    public function invitationAccpetAction($req, $res, $args) {
+        try {
+            $this->userModel->invitationStatus($args['id'], true);
+        } catch( ModelResponseException $e ) {
+            return $res->withJson($e->getMessage(), 400);
+        }
+    }
+
+    public function invitationRejectAction($req, $res, $args) {
+        try {
+            $this->userModel->invitationStatus($args['id'], false);
+        } catch( ModelResponseException $e ) {
+            return $res->withJson($e->getMessage(), 400);
+        }
+    }
+
+    public function undoFriendshipAction($req, $res, $args) {
+        try {
+            $this->userModel->undoFriendship($args['id']);
+        } catch( ModelResponseException $e ) {
+            return $res->withJson($e->getMessage(), 400);
+        }
     }
 }
