@@ -5,6 +5,7 @@ namespace Model;
 use Model\Model;
 use Entity\UserEntity;
 use Entity\EventEntity;
+use Entity\EventUserEntity;
 use Respect\Validation\Validator;
 use Entity\EventOrganizationEntity;
 
@@ -288,6 +289,36 @@ class EventModel extends Model {
 
 
         return $eventEntity;
+    }
+
+
+    public function invitionalFriend($idEvent, $idUser) {
+        if($idUser == $this->user->getId()) {
+            throw new ModelResponseException('It is not possible to invite yourself'); 
+        }
+
+        $userModel = new UserModel($this->em, $this->user);
+        
+        if(!$userModel->isFriend($idUser)) {
+            throw new ModelResponseException('This user not is friend'); 
+        }
+
+        $eventInvitionalValidate = $this->em
+            ->getRepository(EventUserEntity::class)
+            ->findOneBy([
+                'idUser' => $idUser,
+                'idEvent' => $idEvent
+            ]);
+
+        if(!empty($eventInvitionalValidate)) {
+            throw new ModelResponseException("Already exists invitation to this user");
+        }
+
+        $eventInvitionalEntity = new EventUserEntity();
+        $eventInvitionalEntity->setIdEvent($idEvent);
+        $eventInvitionalEntity->setIdUser($idUser);
+        $this->em->persist($eventInvitionalEntity);
+        $this->em->flush();
     }
 
 }

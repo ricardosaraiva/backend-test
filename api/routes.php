@@ -56,7 +56,9 @@ $app
 
     $app->post('user/invitation', UserController::class . ':invitationAction');
     $app->get('user/invitation', UserController::class . ':invitationListAction');
-    $app->delete('user/{id}/invitation', UserController::class . ':invitationRejectAction');
+    $app->delete('user/{id}/invitation', UserController::class . '
+    
+    :invitationRejectAction');
     $app->put('user/{id}/invitation', UserController::class . ':invitationAccpetAction');
     $app->delete('user/{id}/undo_friendship', UserController::class . ':undoFriendshipAction');
     $app->get('user/friends', UserController::class . ':friendsListAction');
@@ -64,6 +66,10 @@ $app
     $app->post('event', EventController::class . ':addAction');
     $app->delete('event/{id}', EventController::class . ':cancelAction');
     $app->put('event/{id}', EventController::class . ':updateAction');
+    
+    $app->post('event/{id}/invitional', EventController::class . ':invitionalFriendAction');
+    
+
 })
 ->add(new Slim\Middleware\JwtAuthentication([
     "regexp" => "/(.*)/", 

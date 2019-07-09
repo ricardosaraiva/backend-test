@@ -77,12 +77,17 @@ class EventController
     }
 
     public function cancelAction($req, $res, $args) {
-        
+        return $res->withJson($this->eventModel->cancel($args['id']));
+    }
+
+    public function invitionalFriendAction($req, $res, $args) {
+        $body = $req->getParsedBody();
+
         try {
-            return $res->withJson($this->eventModel->cancel($args['id']));
+            $this->eventModel->invitionalFriend($args['id'], $body['idUser']);
+            return $res->withJson();
         } catch(ModelResponseException $e) {
             return $res->withJson($e->getMessage(), 400);
         }
-        
     }
 }
