@@ -314,11 +314,55 @@ class EventModel extends Model {
             throw new ModelResponseException("Already exists invitation to this user");
         }
 
+        $eventEntity = $this->em
+            ->getRepository(EventEntity::class)
+            ->find($idEvent);
+
+        if($eventEntity->getCancel()) {
+            throw new ModelResponseException("Event is cancelled");
+        }
+
+        $dateTime = new \DateTime();
+        if($eventEntity->getDate()->format('Y-m-d H:i:s')  < $dateTime->format('Y-m-d H:i:s')) {
+            throw new ModelResponseException('not allowed invitional user to event that 
+                has already happened');
+        }
+
         $eventInvitionalEntity = new EventUserEntity();
         $eventInvitionalEntity->setIdEvent($idEvent);
         $eventInvitionalEntity->setIdUser($idUser);
         $this->em->persist($eventInvitionalEntity);
         $this->em->flush();
     }
+
+    public function invitionalList($status = 'open') {
+            
+        $statusFilter = [
+            'open' => 'is null',
+            'accept' => '= true', 
+            'reject' => '= false'
+        ];
+
+        if(!isset($statusFilter[$status]) && !is_null($statusFilter[$status])) {
+            throw new \Exception("Invalid status");
+        }
+
+        return $this->em
+            ->getRepository(EventEntity::class)
+            ->createQueryBuilder('event')
+            ->innerJoin(
+                EventUserEntity::class,
+                'eventUser',
+                'WITH',
+                'event.id = eventUser.idEvent'
+            )
+            ->andWhere('eventUser.status ' . $statusFilter[$status])
+            ->andWhere('eventUser.idUser = :idUser')
+            ->setParameter('idUser', $this->user->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
+    
 
 }

@@ -68,8 +68,7 @@ $app
     $app->put('event/{id}', EventController::class . ':updateAction');
     
     $app->post('event/{id}/invitional', EventController::class . ':invitionalFriendAction');
-    
-
+    $app->get('event/invitional/{status}', EventController::class . ':invitionalListAction');
 })
 ->add(new Slim\Middleware\JwtAuthentication([
     "regexp" => "/(.*)/", 

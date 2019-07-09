@@ -85,9 +85,12 @@ class EventController
 
         try {
             $this->eventModel->invitionalFriend($args['id'], $body['idUser']);
-            return $res->withJson();
         } catch(ModelResponseException $e) {
             return $res->withJson($e->getMessage(), 400);
         }
+    }
+
+    public function invitionalListAction($req, $res, $args) {
+        return $res->withJson($this->eventModel->invitionalList($args['status']));
     }
 }
