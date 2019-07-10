@@ -3,7 +3,7 @@
 
 $config =  [
     'app' => [
-        'dev' => true,
+        'dev' => false,
         'itemsPerPageDefault' => 10,
         'dirEntity' => DIR_ROOT . 'src/entity'
     ],

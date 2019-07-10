@@ -3,7 +3,7 @@ Envia uma solicitação para um usuario participar de um evento
 
 * **URL**
 
-  /event/:id/invitation/
+  /event/:id/invitation
 
 * **Method:**
 

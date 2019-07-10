@@ -3,7 +3,7 @@ Retorna um json com um usuário.
 
 * **URL**
 
-  /register/
+  /register
 
 * **Method:**
 

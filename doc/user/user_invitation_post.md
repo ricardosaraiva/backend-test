@@ -3,7 +3,7 @@ Envia uma solicitação de amizade para um usuario cadastrado. Caso não tenha o
 
 * **URL**
 
-  /user/invitation/
+  /user/invitation
 
 * **Method:**
 

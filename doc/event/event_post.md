@@ -3,7 +3,7 @@ Retorna um json com o evento criado
 
 * **URL**
 
-  /event/
+  /event
 
 * **Method:**
 

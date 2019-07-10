@@ -3,7 +3,7 @@ Retorna um token para ser usado nas conexões da area restrita.
 
 * **URL**
 
-  /login/
+  /login
 
 * **Method:**
 

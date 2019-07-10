@@ -3,7 +3,7 @@ Retorna uma lista de eventos que o usuario recebeu convite de acordo com o filtr
 
 * **URL**
 
-  /user/invitation/:status/
+  /user/invitation/:status
 
 * **Method:**
 

@@ -3,7 +3,7 @@ Aceita uma solicitação de amizade em aberto de um usuário.
 
 * **URL**
 
-  /user/:id/invitation/
+  /user/:id/invitation
 
 * **Method:**
 

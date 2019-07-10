@@ -3,7 +3,7 @@ Retorna um json com uma lista de usuarios que solicitaram amizade.
 
 * **URL**
 
-  /user/invitation/
+  /user/invitation
 
 * **Method:**
 
