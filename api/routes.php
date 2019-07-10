@@ -56,9 +56,7 @@ $app
 
     $app->post('user/invitation', UserController::class . ':invitationAction');
     $app->get('user/invitation', UserController::class . ':invitationListAction');
-    $app->delete('user/{id}/invitation', UserController::class . '
-    
-    :invitationRejectAction');
+    $app->delete('user/{id}/invitation', UserController::class . ':invitationRejectAction');
     $app->put('user/{id}/invitation', UserController::class . ':invitationAccpetAction');
     $app->delete('user/{id}/undo_friendship', UserController::class . ':undoFriendshipAction');
     $app->get('user/friends', UserController::class . ':friendsListAction');
@@ -66,9 +64,11 @@ $app
     $app->post('event', EventController::class . ':addAction');
     $app->delete('event/{id}', EventController::class . ':cancelAction');
     $app->put('event/{id}', EventController::class . ':updateAction');
-    
     $app->post('event/{id}/invitional', EventController::class . ':invitionalFriendAction');
+    $app->get('event/invitional/user', EventController::class . ':invitionalListAction');
     $app->get('event/invitional/{status}', EventController::class . ':invitionalListAction');
+    $app->put('event/{id}/invitional', EventController::class . ':invitionalAcceptAction');
+    $app->delete('event/{id}/invitional', EventController::class . ':invitionalRejectAction');
 })
 ->add(new Slim\Middleware\JwtAuthentication([
     "regexp" => "/(.*)/", 

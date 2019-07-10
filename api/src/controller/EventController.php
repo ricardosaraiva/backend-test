@@ -91,6 +91,23 @@ class EventController
     }
 
     public function invitionalListAction($req, $res, $args) {
-        return $res->withJson($this->eventModel->invitionalList($args['status']));
+        $status = isset($args['status']) ? $args['status'] : 'accept';
+        return $res->withJson($this->eventModel->invitionalList($status));
+    }
+
+    public function invitionalAcceptAction($req, $res, $args) {
+        try {
+            $this->eventModel->invitionalStatus($args['id'], true);
+        } catch(ModelResponseException $e) {
+            return $res->withJson($e->getMessage(), 400);
+        }
+    }
+
+    public function invitionalRejectAction($req, $res, $args) {
+        try {
+            $this->eventModel->invitionalStatus($args['id'], false);
+        } catch(ModelResponseException $e) {
+            return $res->withJson($e->getMessage(), 400);
+        }
     }
 }

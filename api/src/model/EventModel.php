@@ -343,9 +343,12 @@ class EventModel extends Model {
             'reject' => '= false'
         ];
 
-        if(!isset($statusFilter[$status]) && !is_null($statusFilter[$status])) {
+        if(!isset($statusFilter[$status])) {
             throw new \Exception("Invalid status");
         }
+
+
+        $date = new \DateTime(); 
 
         return $this->em
             ->getRepository(EventEntity::class)
@@ -358,9 +361,45 @@ class EventModel extends Model {
             )
             ->andWhere('eventUser.status ' . $statusFilter[$status])
             ->andWhere('eventUser.idUser = :idUser')
+            ->andWhere('event.date >= :date')
+            ->andWhere('event.cancel = false')
             ->setParameter('idUser', $this->user->getId())
+            ->setParameter('date', $date->format('Y-m-d H:i:s'))
             ->getQuery()
             ->getResult();
+    }
+
+    public function invitionalStatus($idEvent, $status) {
+        $date = new \DateTime(); 
+
+        $event  = $this->em
+            ->getRepository(EventUserEntity::class)
+            ->createQueryBuilder('eventUser')
+            ->innerJoin(
+                EventEntity::class,
+                'event',
+                'WITH',
+                'event.id = eventUser.idEvent'
+            )
+            ->andWhere('eventUser.idUser = :idUser')
+            ->andWhere('event.id = :idEvent')
+            ->andWhere('event.date >= :date')
+            ->andWhere('event.cancel = false')
+            ->setParameter('idUser', $this->user->getId())
+            ->setParameter('idEvent', $idEvent)
+            ->setParameter('date', $date->format('Y-m-d H:i:s'))
+            ->getQuery()
+            ->getResult();
+
+            if( empty($event[0]) ) {
+                throw new \Exception("Invalid event");
+            }
+
+            $event[0]->setStatus((bool) $status);
+            $this->em->persist($event[0]);
+            $this->em->flush();
+
+            
     }
 
     
