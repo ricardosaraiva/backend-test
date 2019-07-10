@@ -18,7 +18,7 @@ class LoginController {
     private $jwtKey;
 
     public function __construct($container) {
-        $this->userModel = new UserModel($container->get(EntityManager::class), $this->user); 
+        $this->userModel = new UserModel($container->get(EntityManager::class), null); 
         $this->itemsPerPage = $container->get('config')['app']['itemsPerPageDefault'];
         $this->dirPicuture = $container->get('dirPicuture');
         $this->jwtKey = $container->get('jwtKey');
