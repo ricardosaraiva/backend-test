@@ -272,8 +272,7 @@ class UserModel extends Model {
             ]);
 
         if(empty($userFriendEntity)) {
-            $error = $status ? 'Invalid friendship request' : 'Invalid Friend';
-            throw new ModelResponseException($error);
+            throw new ModelResponseException('Invalid friendship request');
         }
 
         $userFriendEntity->setStatus((bool) $status);

@@ -1,9 +1,9 @@
-# Remove um amigo 
-Remove um amigo da sua lista de amigo 
+# Aceita uma solicitação de amizade 
+Aceita uma solicitação de amizade em aberto de um usuário.
 
 * **URL**
 
-  /user/{id}/undo_friendship
+  /user/:id/invitation/
 
 * **Method:**
 
@@ -23,4 +23,4 @@ Remove um amigo da sua lista de amigo
 
 * **Error Response:**
   * **Code:** 400  <br />
-    **Content:** `"Invalid friendship"`
+    **Content:** `"Invalid friendship request"`

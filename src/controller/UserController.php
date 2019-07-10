@@ -28,11 +28,11 @@ class UserController {
         return $res->withJson($this->userModel->invitationList());
     }
 
-    public function invitationAccpetAction($req, $res, $args) {
+    public function invitationAcceptAction($req, $res, $args) {
         try {
             $this->userModel->invitationStatus($args['id'], true);
         } catch( ModelResponseException $e ) {
-            return $res->withJson($e->getMessage(), 400);
+            return $res->withJson('Invalid friendship request', 400);
         }
     }
 
@@ -40,7 +40,7 @@ class UserController {
         try {
             $this->userModel->invitationStatus($args['id'], false);
         } catch( ModelResponseException $e ) {
-            return $res->withJson($e->getMessage(), 400);
+            return $res->withJson('Invalid friendship request', 400);
         }
     }
 
@@ -48,7 +48,7 @@ class UserController {
         try {
             $this->userModel->undoFriendship($args['id']);
         } catch( ModelResponseException $e ) {
-            return $res->withJson($e->getMessage(), 400);
+            return $res->withJson('Invalid friendship', 400);
         }
     }
 
