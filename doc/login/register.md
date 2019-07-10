@@ -9,7 +9,7 @@ Retorna um json com um usuário.
 
   `POST`
 
-* **Body Params**
+* **Data Params**
 
   Os campos * são obrigatórios
 

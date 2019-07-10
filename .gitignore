@@ -1,4 +1,4 @@
 .vscode/
 vendor/
-data/db.sqlite3
+data/*
 public/pictures
