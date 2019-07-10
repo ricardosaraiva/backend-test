@@ -31,7 +31,7 @@ Retorna uma lista com eventos paginado com 10 paginas
 	"data": [
 		{
 			"id": 1,
-			"name": "event name",
+			"name": "xxxx",
 			"description": "xxxxxx xxxx",
 			"date": "0000-00-00 00:00:00",
 			"city": "xxxx",

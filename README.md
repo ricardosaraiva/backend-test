@@ -40,11 +40,11 @@ php -S localhost:8082 -t public/ index.php
 
 **Evento**
 * [Adiciona um evento](doc/event/event_post.md) : `POST /event/`
-* [Editar um evento](doc/event/event_put.md) : `PUT /event/`
+* [Editar um evento](doc/event/event_put.md) : `PUT /event/:id`
 * [Cancela um evento](doc/event/event_delete.md) : `DELETE /event/`
-* [Convida um amigo](doc/event/event_invitation.md) : `POST /event/{id}/invitation/`
+* [Convida um amigo](doc/event/event_invitation.md) : `POST /event/:id/invitation/`
 * [Lista os evento do usuario](doc/event/event_user.md) : `GET /event/user/`
 * [Lista os convites de eventos: (abertos, aceitos e cancelados)](doc/event/register.md) : `GET /event/invitation/:status/`
-* [Aceita o convite para um evento](doc/event/register.md) : `PUT /event/{id}/invitation/`
-* [Rejeita o convite para um evento](doc/event/register.md) : `DELETE /event/{id}/invitation//`
+* [Aceita o convite para um evento](doc/event/register.md) : `PUT /event/:id/invitation/`
+* [Rejeita o convite para um evento](doc/event/register.md) : `DELETE /event/:id/invitation/`
 

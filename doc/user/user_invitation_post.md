@@ -9,7 +9,7 @@ Envia uma solicitação de amizade para um usuario cadastrado. Caso não tenha o
 
   `POST`
 
-* **Data Params**
+* **Body Params**
 
     {"email" : "teste@teste2.com"}
 

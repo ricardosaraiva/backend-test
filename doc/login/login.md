@@ -9,7 +9,7 @@ Retorna um token para ser usado nas conexões da area restrita.
 
   `POST`
 
-* **Data Params**
+* **Body Params**
 
         {"email" : "xxxxx@xxxx.com", "password": "xxxxxx"}
 
