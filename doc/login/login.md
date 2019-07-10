@@ -1,5 +1,5 @@
 # Login no sistema
-Retorna um token para ser usado nas conexões da area protegida.
+Retorna um token para ser usado nas conexões da area restrita.
 
 * **URL**
 

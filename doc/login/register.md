@@ -7,7 +7,7 @@ Retorna um json com um usuário.
 
 * **Method:**
 
-  `GET`
+  `POST`
 
 * **Data Params**
 

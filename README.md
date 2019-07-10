@@ -31,6 +31,7 @@ $app->get('/event/{id}/detail', EventController::class . ':detailAction');
 ## Área publica
 * [Registro de usuário](doc/login/register.md) : `GET /register/`
 * [Login no sistema](doc/login/login.md) : `POST /login/`
-* [Lista de eventos](doc/pk/get.md) : `GET /event/:page/`
-* [Detalhe do evento](doc/pk/put.md) : `GET /event/:id/detail`
+* [Lista de eventos](doc/event/event_get.md) : `GET /event/:page/`
+* [Informações do evento](doc/event/event_detail.md) : `GET /event/:id/detail`
 
+## Área restrita
