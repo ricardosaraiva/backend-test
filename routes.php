@@ -63,11 +63,11 @@ $app
     $app->post('event', EventController::class . ':addAction');
     $app->delete('event/{id}', EventController::class . ':cancelAction');
     $app->put('event/{id}', EventController::class . ':updateAction');
-    $app->post('event/{id}/invitional', EventController::class . ':invitionalFriendAction');
-    $app->get('event/invitional/user', EventController::class . ':invitionalListAction');
-    $app->get('event/invitional/{status}', EventController::class . ':invitionalListAction');
-    $app->put('event/{id}/invitional', EventController::class . ':invitionalAcceptAction');
-    $app->delete('event/{id}/invitional', EventController::class . ':invitionalRejectAction');
+    $app->post('event/{id}/invitation', EventController::class . ':invitationFriendAction');
+    $app->get('event/user', EventController::class . ':myEventsAction');
+    $app->get('event/invitation/{status}', EventController::class . ':myEventsAction');
+    $app->put('event/{id}/invitation', EventController::class . ':invitationAcceptAction');
+    $app->delete('event/{id}/invitation', EventController::class . ':invitationRejectAction');
 })
 ->add(new Slim\Middleware\JwtAuthentication([
     "regexp" => "/(.*)/", 

@@ -292,7 +292,7 @@ class EventModel extends Model {
     }
 
 
-    public function invitionalFriend($idEvent, $idUser) {
+    public function invitationFriend($idEvent, $idUser) {
         if($idUser == $this->user->getId()) {
             throw new ModelResponseException('It is not possible to invite yourself'); 
         }
@@ -335,7 +335,7 @@ class EventModel extends Model {
         $this->em->flush();
     }
 
-    public function invitionalList($status = 'open') {
+    public function invitationList($status = 'open') {
             
         $statusFilter = [
             'open' => 'is null',
@@ -369,7 +369,7 @@ class EventModel extends Model {
             ->getResult();
     }
 
-    public function invitionalStatus($idEvent, $status) {
+    public function invitationStatus($idEvent, $status) {
         $date = new \DateTime(); 
 
         $event  = $this->em

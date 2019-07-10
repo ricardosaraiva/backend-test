@@ -23,15 +23,28 @@ php -S localhost:8082 -t public/ index.php
 
 # Documentação da api
 
-$app->post('/register', LoginController::class . ':registerAction');
-$app->post('/login', LoginController::class . ':loginAction');
-$app->get('/event[/{page}]', EventController::class . ':listAction');
-$app->get('/event/{id}/detail', EventController::class . ':detailAction');
-
 ## Área publica
 * [Registro de usuário](doc/login/register.md) : `GET /register/`
 * [Login no sistema](doc/login/login.md) : `POST /login/`
 * [Lista de eventos](doc/event/event_get.md) : `GET /event/:page/`
-* [Informações do evento](doc/event/event_detail.md) : `GET /event/:id/detail`
+* [Informações do evento](doc/event/event_detail.md) : `GET /event/:id/detail/`
 
 ## Área restrita
+**Usurario**
+* [Lista de solicitaçoes de amizade](doc/user/user_invitation_get.md) : `GET /user/invitation/`
+* [Envia uma solicitação de amizade](doc/user/user_invitation_post.md) : `POST /user/invitation/`
+* [Aceita uma solicitação de amizade](doc/user/user_invitation_put.md) : `PUT /user/:id/invitation/`
+* [Rejeita uma solicitação de amizade](doc/user/user_invitation_delete.md) : `DELETE /user/:id/invitation/`
+* [Remove um amigo](doc/user/friends_undo.md) : `DELETE user/{id}/undo_friendship/`
+* [Lista os amigos](doc/user/friends.md) : `GET user/friends/`
+
+**Evento**
+* [Adiciona um evento](doc/event/event_post.md) : `POST /event/`
+* [Editar um evento](doc/event/event_put.md) : `PUT /event/`
+* [Cancela um evento](doc/event/event_delete.md) : `DELETE /event/`
+* [Convida um amigo](doc/event/event_invitation.md) : `POST /event/{id}/invitation/`
+* [Lista os evento do usuario](doc/event/event_user.md) : `GET /event/user/`
+* [Lista os convites de eventos: (abertos, aceitos e cancelados)](doc/event/register.md) : `GET /event/invitation/:status/`
+* [Aceita o convite para um evento](doc/event/register.md) : `PUT /event/{id}/invitation/`
+* [Rejeita o convite para um evento](doc/event/register.md) : `DELETE /event/{id}/invitation//`
+

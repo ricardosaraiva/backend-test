@@ -11,7 +11,16 @@ Retorna uma lista com eventos paginado com 10 paginas
 *  **URL Params**
 
    **Optional:**
+   
    `page=[integer]`
+
+   **Query String:**
+
+   `dateStart=[date]`
+
+   `dateEnd=[date]`
+
+   `place=[string]`
 
 * **Success Response:**
 

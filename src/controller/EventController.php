@@ -80,32 +80,32 @@ class EventController
         return $res->withJson($this->eventModel->cancel($args['id']));
     }
 
-    public function invitionalFriendAction($req, $res, $args) {
+    public function invitationFriendAction($req, $res, $args) {
         $body = $req->getParsedBody();
 
         try {
-            $this->eventModel->invitionalFriend($args['id'], $body['idUser']);
+            $this->eventModel->invitationFriend($args['id'], $body['idUser']);
         } catch(ModelResponseException $e) {
             return $res->withJson($e->getMessage(), 400);
         }
     }
 
-    public function invitionalListAction($req, $res, $args) {
+    public function myEventsAction($req, $res, $args) {
         $status = isset($args['status']) ? $args['status'] : 'accept';
-        return $res->withJson($this->eventModel->invitionalList($status));
+        return $res->withJson($this->eventModel->invitationList($status));
     }
 
-    public function invitionalAcceptAction($req, $res, $args) {
+    public function invitationAcceptAction($req, $res, $args) {
         try {
-            $this->eventModel->invitionalStatus($args['id'], true);
+            $this->eventModel->invitationStatus($args['id'], true);
         } catch(ModelResponseException $e) {
             return $res->withJson($e->getMessage(), 400);
         }
     }
 
-    public function invitionalRejectAction($req, $res, $args) {
+    public function invitationRejectAction($req, $res, $args) {
         try {
-            $this->eventModel->invitionalStatus($args['id'], false);
+            $this->eventModel->invitationStatus($args['id'], false);
         } catch(ModelResponseException $e) {
             return $res->withJson($e->getMessage(), 400);
         }
