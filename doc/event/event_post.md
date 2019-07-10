@@ -39,7 +39,8 @@ Retorna um json com o evento criado
 
 
 * **Error Response:**
-  * **Code:** 400  <br />
+
+* **Code:** 400  <br />
     **Content:** `{ "field": "name", "message": "must contain 3 to 100 characters"}`
 
 * **Code:** 400  <br />
