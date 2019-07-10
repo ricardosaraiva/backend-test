@@ -53,7 +53,6 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 
 $app
 ->group('/', function () use ($app) {
-
     $app->post('user/invitation', UserController::class . ':invitationAction');
     $app->get('user/invitation', UserController::class . ':invitationListAction');
     $app->delete('user/{id}/invitation', UserController::class . ':invitationRejectAction');

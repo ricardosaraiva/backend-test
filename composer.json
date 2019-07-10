@@ -22,7 +22,9 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "mkdir data",
+            "mkdir ./data",
+            "mkdir ./public/pictures/",
+            "chmod 7777 ./public/pictures/",
             "php vendor/bin/doctrine orm:schema-tool:update --force"
         ]
     }

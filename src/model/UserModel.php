@@ -132,7 +132,7 @@ class UserModel extends Model {
             }
 
             $ext = pathinfo($this->picture->getClientFilename(), PATHINFO_EXTENSION);
-            $filename = md5(uniqid(time())) . $ext;
+            $filename = md5(uniqid(time())) . '.' . $ext;
             $this->picture->moveTo($dirUpload . $filename);
             $userEntity->setPicture($filename);
         }

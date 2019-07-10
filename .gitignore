@@ -1,4 +1,4 @@
 .vscode/
 vendor/
-api/data/db.sqlite3
-api/public/pictures
+data/db.sqlite3
+public/pictures
